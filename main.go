@@ -43,7 +43,7 @@ func updateProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get id dari request
-	idStr := strings.TrimPrefix(r.URL.Path, "/api/produk/")
+	idStr := strings.TrimPrefix(r.URL.Path, "/api/product/")
 
 	// ganti int
 	id, err := strconv.Atoi(idStr)
