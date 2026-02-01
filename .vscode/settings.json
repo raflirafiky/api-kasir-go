@@ -1,0 +1,25 @@
+{
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+        {
+            "text": "Use Conventional Commits format: <type>[optional scope]: <description>"
+        },
+        {
+            "text": "Types: feat, fix, docs, style, refactor, test, chore, perf, ci"
+        },
+        {
+            "text": "Keep description concise, lowercase, imperative mood, under 50 chars, no period"
+        },
+        {
+            "text": "Skip body explanation unless breaking changes or complex logic. Most commits should be one-line only"
+        },
+        {
+            "text": "Add breaking change footer only if API/behavior changes"
+        },
+        {
+            "text": "One commit per logical unit. If multiple unrelated changes, suggest splitting into separate commits"
+        },
+        {
+            "text": "Prefer single-line commit messages. Only add body for breaking changes or non-obvious changes"
+        }
+    ]
+}
