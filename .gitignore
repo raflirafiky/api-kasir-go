@@ -7,3 +7,6 @@ kasir-api-go
 
 # OS specific
 .DS_Store
+
+# Workspace files
+.vscode/

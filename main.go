@@ -21,14 +21,18 @@ func main() {
 	// 3. Initialize Repositories
 	categoryRepo := repositories.NewCategoryRepository(database.DB)
 	productRepo := repositories.NewProductRepository(database.DB)
+	transactionRepo := repositories.NewTransactionRepository(database.DB)
 
 	// 4. Initialize Services
 	categoryService := services.NewCategoryService(categoryRepo)
 	productService := services.NewProductService(productRepo)
+	transactionService := services.NewTransactionService(transactionRepo)
 
 	// 5. Initialize Handlers
 	categoryHandler := handlers.NewCategoryHandler(categoryService)
 	productHandler := handlers.NewProductHandler(productService)
+	transactionHandler := handlers.NewTransactionHandler(transactionService)
+	reportHandler := handlers.NewReportHandler(transactionService)
 
 	// 6. Setup Routes
 	// Helper function to handle method routing
@@ -82,6 +86,33 @@ func main() {
 		case http.MethodDelete:
 			categoryHandler.Delete(w, r)
 		default:
+			handlers.ErrorResponse(w, http.StatusMethodNotAllowed, "Method not allowed", "Method not allowed")
+		}
+	})
+
+	// Transaction Routes
+	handleFunc("/api/transaction", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodPost:
+			transactionHandler.Create(w, r)
+		default:
+			handlers.ErrorResponse(w, http.StatusMethodNotAllowed, "Method not allowed", "Method not allowed")
+		}
+	})
+
+	// Report Routes
+	handleFunc("/api/report/hari-ini", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			reportHandler.GetReport(w, r)
+		} else {
+			handlers.ErrorResponse(w, http.StatusMethodNotAllowed, "Method not allowed", "Method not allowed")
+		}
+	})
+
+	handleFunc("/api/report", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			reportHandler.GetReport(w, r)
+		} else {
 			handlers.ErrorResponse(w, http.StatusMethodNotAllowed, "Method not allowed", "Method not allowed")
 		}
 	})

@@ -27,7 +27,7 @@ func Connect(cfg *config.Config) {
 }
 
 func Migrate() {
-	err := DB.AutoMigrate(&models.Category{}, &models.Product{})
+	err := DB.AutoMigrate(&models.Category{}, &models.Product{}, &models.Transaction{}, &models.TransactionDetail{})
 	if err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
