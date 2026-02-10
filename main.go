@@ -90,32 +90,30 @@ func main() {
 		}
 	})
 
-	// Transaction Routes
-	handleFunc("/api/transaction", func(w http.ResponseWriter, r *http.Request) {
+	// Transaction Routes (support both with and without trailing slash)
+	transactionRouteHandler := func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
 			transactionHandler.Create(w, r)
 		default:
 			handlers.ErrorResponse(w, http.StatusMethodNotAllowed, "Method not allowed", "Method not allowed")
 		}
-	})
+	}
+	handleFunc("/api/transaction", transactionRouteHandler)
+	handleFunc("/api/transaction/", transactionRouteHandler)
 
-	// Report Routes
-	handleFunc("/api/report/hari-ini", func(w http.ResponseWriter, r *http.Request) {
+	// Report Routes (support both with and without trailing slash)
+	reportHandlerFunc := func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
 			reportHandler.GetReport(w, r)
 		} else {
 			handlers.ErrorResponse(w, http.StatusMethodNotAllowed, "Method not allowed", "Method not allowed")
 		}
-	})
-
-	handleFunc("/api/report", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodGet {
-			reportHandler.GetReport(w, r)
-		} else {
-			handlers.ErrorResponse(w, http.StatusMethodNotAllowed, "Method not allowed", "Method not allowed")
-		}
-	})
+	}
+	handleFunc("/api/report/hari-ini", reportHandlerFunc)
+	handleFunc("/api/report/hari-ini/", reportHandlerFunc)
+	handleFunc("/api/report", reportHandlerFunc)
+	handleFunc("/api/report/", reportHandlerFunc)
 
 	// Status Route
 	handleFunc("/api/status", func(w http.ResponseWriter, r *http.Request) {
